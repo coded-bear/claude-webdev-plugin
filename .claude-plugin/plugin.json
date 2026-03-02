@@ -1,0 +1,12 @@
+{
+  "name": "claude-webdev-plugin",
+  "description": "A plugin for productive web development",
+  "version": "1.0.0",
+  "author": {
+    "name": "Łukasz Warchoł",
+    "url": "https://github.com/coded-bear"
+  },
+  "homepage": "https://github.com/coded-bear/claude-webdev-plugin",
+  "repository": "https://github.com/coded-bear/claude-webdev-plugin",
+  "license": "MIT"
+}
