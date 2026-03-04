@@ -6,7 +6,7 @@
   "plugins": [
     {
       "name": "claude-webdev-plugin",
-      "source": ".",
+      "source": "./",
       "description": "A plugin for productive web development"
     }
   ]
