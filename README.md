@@ -42,16 +42,16 @@ Arguments: `[page-type] [industry/client] [language]`
 
 ## Installation
 
-From the repository:
+From the marketplace:
 
-```sh
-claude plugin add github:coded-bear/claude-webdev-plugin
+```
+/plugin marketplace add coded-bear/claude-webdev-plugin
 ```
 
-Or from a local clone:
+Then install the plugin:
 
-```sh
-claude plugin add /path/to/claude-webdev-plugin
+```
+/plugin install claude-webdev-plugin
 ```
 
 ## Customization
