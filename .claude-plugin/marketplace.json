@@ -1,0 +1,13 @@
+{
+  "name": "claude-webdev-plugin",
+  "owner": {
+    "name": "Łukasz Warchoł"
+  },
+  "plugins": [
+    {
+      "name": "claude-webdev-plugin",
+      "source": ".",
+      "description": "A plugin for productive web development"
+    }
+  ]
+}
