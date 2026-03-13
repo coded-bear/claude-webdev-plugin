@@ -54,3 +54,15 @@ Each skill lives in a directory with a `SKILL.md` file (YAML frontmatter with `n
 
 - **Agent**: Create a new `.md` file in `agents/` with frontmatter fields: `name`, `description`, `model` (opus/sonnet/haiku), `color`, optionally `tools`
 - **Skill**: Create a new directory in `skills/<skill-name>/` with a `SKILL.md` file. Frontmatter fields: `name`, `description`, `argument-hint`. Use `$0`, `$1`, `$2` for positional args and `$ARGUMENTS` for the full string
+
+## Coding Guidelines
+
+- All generated HTML/JSX must conform to WCAG 2.2 Level AA guidelines
+- Use semantic HTML elements (`<nav>`, `<main>`, `<article>`, `<section>`, `<aside>`, `<header>`, `<footer>`) instead of generic `<div>` wrappers
+- Apply ARIA attributes correctly — only when native semantics are insufficient; never misuse `role` or `aria-*` to override built-in element behavior
+- Ensure full keyboard operability: interactive elements must be focusable, have visible focus indicators, and support expected key interactions
+- Maintain sufficient color contrast ratios (4.5:1 for normal text, 3:1 for large text and UI components)
+- When building UI components, account for:
+  - **Focus management** — trap focus in modals/dialogs, restore focus on close, logical tab order
+  - **Screen reader support** — meaningful alt text, live regions for dynamic updates, proper heading hierarchy
+  - **Reduced motion preferences** — respect `prefers-reduced-motion` media query, avoid autoplay animations
