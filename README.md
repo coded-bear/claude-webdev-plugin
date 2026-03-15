@@ -61,6 +61,10 @@ Then install the plugin:
 
 See [CLAUDE.md](CLAUDE.md) for full details on the plugin structure.
 
+## Author
+
+Łukasz Warchoł
+
 ## License
 
-MIT
+MIT License - see [LICENSE](LICENSE) for details.
