@@ -57,6 +57,7 @@ Each skill lives in a directory with a `SKILL.md` file (YAML frontmatter with `n
 Each command is a Markdown file with YAML frontmatter (`description`, `argument-hint`, `allowed-tools`):
 
 - **spec** — Turns a short feature idea into a kebab-case title, a new git branch (`claude/feature/<slug>`), and a detailed spec file in `_specs/` based on `_specs/template.md`. Aborts if the working tree is dirty. Invoked with `/spec <short feature description>`
+- **commit-message** — Analyzes staged git changes and proposes a conventional-commit message with an emoji prefix (`✨ feat`, `🐛 fix`, `🔨 refactor`, `📝 docs`, `🎨 style`, `✅ test`, `⚡ perf`). Explains _why_ rather than just _what_, and asks for confirmation before committing. Invoked with `/commit-message`
 
 ## How to Add New Agents, Skills, or Commands
 

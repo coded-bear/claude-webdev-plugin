@@ -7,7 +7,7 @@ A Claude Code plugin that configures a productive web development environment. I
 - **Settings** — Prettier auto-formatting on stop, always-thinking mode, telemetry disabled, security deny-list for destructive commands and sensitive paths
 - **4 Agents** — Code review, performance analysis, accessibility audit, content audit
 - **1 Skill** — Web content writing (`/content-write`)
-- **1 Command** — Feature spec scaffolder (`/spec`)
+- **2 Commands** — Feature spec scaffolder (`/spec`), conventional-commit message generator (`/commit-message`)
 - **3 MCP Servers** — Context7 (library docs), Playwright (browser automation), shadcn (UI components with tweakcn theme)
 - **Custom Status Line** — Shows model name, context usage %, session duration, git branch, and line change stats
 
@@ -45,6 +45,16 @@ Scaffolds a new feature by creating a git branch (`claude/feature/<slug>`) and a
 ```
 
 Arguments: `<short feature description>`
+
+### `/commit-message`
+
+Analyzes staged git changes and proposes a conventional-commit message with an emoji prefix. Explains _why_ something changed, not just _what_, and asks for confirmation before committing.
+
+```
+/commit-message
+```
+
+Supported types: `✨ feat`, `🐛 fix`, `🔨 refactor`, `📝 docs`, `🎨 style`, `✅ test`, `⚡ perf`
 
 ## MCP Servers
 
