@@ -17,6 +17,8 @@ A Claude Code plugin (`claude-webdev-plugin`) that configures a productive web d
 .mcp.json              — MCP server definitions
 agents/                — Custom agent definitions (Markdown with YAML frontmatter)
 skills/                — Custom skill definitions (Markdown with YAML frontmatter)
+commands/              — Custom slash command definitions (Markdown with YAML frontmatter)
+_specs/                — Feature spec files and template used by /spec
 statusline.sh          — Custom status line script (model, context %, session time, git branch, line stats)
 ```
 
@@ -50,7 +52,14 @@ Each skill lives in a directory with a `SKILL.md` file (YAML frontmatter with `n
 
 - **content-write** — Generates web copy (headlines, CTAs, meta tags) for a given page type, industry, and language. Invoked with `/content-write [page-type] [industry] [language]`
 
-## How to Add New Agents or Skills
+## Commands (`commands/`)
+
+Each command is a Markdown file with YAML frontmatter (`description`, `argument-hint`, `allowed-tools`):
+
+- **spec** — Turns a short feature idea into a kebab-case title, a new git branch (`claude/feature/<slug>`), and a detailed spec file in `_specs/` based on `_specs/template.md`. Aborts if the working tree is dirty. Invoked with `/spec <short feature description>`
+
+## How to Add New Agents, Skills, or Commands
 
 - **Agent**: Create a new `.md` file in `agents/` with frontmatter fields: `name`, `description`, `model` (opus/sonnet/haiku), `color`, optionally `tools`
 - **Skill**: Create a new directory in `skills/<skill-name>/` with a `SKILL.md` file. Frontmatter fields: `name`, `description`, `argument-hint`. Use `$0`, `$1`, `$2` for positional args and `$ARGUMENTS` for the full string
+- **Command**: Create a new `.md` file in `commands/` with frontmatter fields: `description`, `argument-hint`, `allowed-tools`. Use `$ARGUMENTS` for the full argument string. Invoke it with `/<command-name>`

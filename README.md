@@ -7,6 +7,7 @@ A Claude Code plugin that configures a productive web development environment. I
 - **Settings** — Prettier auto-formatting on stop, always-thinking mode, telemetry disabled, security deny-list for destructive commands and sensitive paths
 - **4 Agents** — Code review, performance analysis, accessibility audit, content audit
 - **1 Skill** — Web content writing (`/content-write`)
+- **1 Command** — Feature spec scaffolder (`/spec`)
 - **3 MCP Servers** — Context7 (library docs), Playwright (browser automation), shadcn (UI components with tweakcn theme)
 - **Custom Status Line** — Shows model name, context usage %, session duration, git branch, and line change stats
 
@@ -31,6 +32,19 @@ Generates website copy (headlines, CTAs, meta tags) tailored to a specific page 
 ```
 
 Arguments: `[page-type] [industry/client] [language]`
+
+## Commands
+
+### `/spec`
+
+Scaffolds a new feature by creating a git branch (`claude/feature/<slug>`) and a detailed spec file under `_specs/` from a short idea. Aborts if there are uncommitted changes in the working tree.
+
+```
+/spec Card component for dashboard stats
+/spec New heist form
+```
+
+Arguments: `<short feature description>`
 
 ## MCP Servers
 
@@ -58,6 +72,7 @@ Then install the plugin:
 
 - **Add an agent** — Create a new `.md` file in `agents/` with YAML frontmatter (`name`, `description`, `model`, `color`, `tools`)
 - **Add a skill** — Create a new directory in `skills/<skill-name>/` with a `SKILL.md` file (frontmatter: `name`, `description`, `argument-hint`)
+- **Add a command** — Create a new `.md` file in `commands/` with YAML frontmatter (`description`, `argument-hint`, `allowed-tools`) and use `$ARGUMENTS` in the body
 
 See [CLAUDE.md](CLAUDE.md) for full details on the plugin structure.
 
