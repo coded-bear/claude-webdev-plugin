@@ -18,7 +18,9 @@ A Claude Code plugin (`claude-webdev-plugin`) that configures a productive web d
 agents/                — Custom agent definitions (Markdown with YAML frontmatter)
 skills/                — Custom skill definitions (Markdown with YAML frontmatter)
 commands/              — Custom slash command definitions (Markdown with YAML frontmatter)
-_specs/                — Feature spec files and template used by /spec
+_specs/
+  templates/           — Templates used by the SDD workflow (requirements, design, tasks)
+  <feature-slug>/      — One folder per SDD feature (created by /spec-init)
 statusline.sh          — Custom status line script (model, context %, session time, git branch, line stats)
 ```
 
@@ -56,8 +58,34 @@ Each skill lives in a directory with a `SKILL.md` file (YAML frontmatter with `n
 
 Each command is a Markdown file with YAML frontmatter (`description`, `argument-hint`, `allowed-tools`):
 
-- **spec** — Turns a short feature idea into a kebab-case title, a new git branch (`claude/feature/<slug>`), and a detailed spec file in `_specs/` based on `_specs/template.md`. Aborts if the working tree is dirty. Invoked with `/spec <short feature description>`
+- **spec-quick** — Turns a short feature idea into a kebab-case title, a new git branch (`claude/feature/<slug>`), and a detailed single-file spec in `_specs/<slug>.md` based on `_specs/template.md`. Aborts if the working tree is dirty. Invoked with `/spec-quick <short feature description>`
+- **spec-init** — First step of the SDD workflow. Creates `_specs/<slug>/` with stub `requirements.md`, `design.md`, `tasks.md`, and `.spec-meta.json`, plus a new git branch. Aborts if the working tree is dirty. Invoked with `/spec-init <feature-name> <description>`
+- **spec-requirements** — Generates a full `requirements.md` for an initialized SDD feature using strict EARS-format acceptance criteria with stable numbered IDs. Invoked with `/spec-requirements <feature-name>`
+- **spec-design** — Generates a full `design.md` (architecture, Mermaid diagrams, design decisions, data models, error handling, testing, security) once requirements are drafted. Consults the Context7 MCP for load-bearing libraries. Invoked with `/spec-design <feature-name>`
+- **spec-tasks** — Generates a full `tasks.md` once both requirements and design are drafted. Each sub-task carries an inline `_Requirements: X.Y_` reference and the closing Coverage Summary flags any uncovered requirements as `⚠️ UNCOVERED`. Invoked with `/spec-tasks <feature-name>`
 - **commit-message** — Analyzes staged git changes and proposes a conventional-commit message with an emoji prefix (`✨ feat`, `🐛 fix`, `🔨 refactor`, `📝 docs`, `🎨 style`, `✅ test`, `⚡ perf`). Explains _why_ rather than just _what_, and asks for confirmation before committing. Invoked with `/commit-message`
+
+## SDD Workflow
+
+Spec-Driven Development is the structured counterpart to `/spec-quick`. Use it for non-trivial features where you want traceability between requirements, design, and implementation tasks.
+
+The workflow is sequential, with explicit review gates between stages:
+
+1. `/spec-init <slug> <description>` — scaffold the feature folder and branch
+2. `/spec-requirements <slug>` — generate EARS-format requirements; **review and edit** the file before continuing
+3. `/spec-design <slug>` — generate the design from the requirements; review
+4. `/spec-tasks <slug>` — generate the implementation plan with traceability back to requirements; review the Coverage Summary
+5. Implement, ticking off checkboxes in `tasks.md` as you go.
+
+Design rules baked into the commands:
+
+- **Fail-closed validation** — `/spec-design` refuses to run if requirements are not drafted; `/spec-tasks` refuses to run if either prior stage is missing.
+- **No auto-advance** — each command stops and tells the user to review before manually running the next step.
+- **Idempotent re-runs** — the generation commands ask for confirmation before overwriting an already-drafted file, then regenerate from scratch (no merging).
+- **`_specs/<slug>/.spec-meta.json`** is owned by the commands and tracks stage status, branch, timestamps, and the original description. Do not hand-edit it.
+- Only `/spec-init` touches git. The other commands assume the user is already on the feature branch and may be iterating on docs alongside implementation.
+
+When to use `/spec-quick` vs `/spec-init`: rule of thumb — if the feature will take more than a day or touches more than three files, use `/spec-init`. Otherwise `/spec-quick` is faster and lighter.
 
 ## How to Add New Agents, Skills, or Commands
 
