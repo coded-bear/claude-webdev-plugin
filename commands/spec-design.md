@@ -10,7 +10,7 @@ User input: $ARGUMENTS
 
 ## High level behavior
 
-Take the slug from `$ARGUMENTS`, validate that requirements have been drafted, then generate a full `design.md` for the feature. Every requirement from `requirements.md` must map to at least one component or flow in the design (traceability).
+Take the slug from `$ARGUMENTS`, validate that requirements have been drafted, then generate a full `design.md` for the feature.
 
 Do NOT auto-trigger `/spec-tasks`. The user runs the next command when they are satisfied with the design.
 
@@ -26,7 +26,7 @@ The user may pass an exact slug, a Title Case name, or nothing at all. Resolve a
 Read `_specs/<slug>/.spec-meta.json`. If it does not exist, abort with:
 
 ```
-No SDD feature found at _specs/<slug>/. Run `/spec-init <slug> <description>` first.
+No SDD feature found at _specs/<slug>/. Run `/spec-requirements <slug> <description>` first.
 ```
 
 Check `stages.requirements`:
@@ -84,33 +84,23 @@ Be selective — only consult Context7 for libraries that meaningfully shape the
 
 ## Step 5. Generate the design document
 
-Produce a complete `design.md` with the following sections in this exact order: **Overview**, **Architecture**, **Technology Stack**, **Design Decisions**, **System Flows**, **Components & Interfaces**, **Data Models**, **Error Handling**, **Testing Strategy**, **Security Considerations**, **Open Questions**. Apply these rules:
+Produce a complete `design.md` with the following sections in this exact order: **Overview**, **Architecture**, **Design Decisions**, **Components & Interfaces**, **Data Models**, **Open Questions**. Apply these rules:
 
 ### Overview
 
-- Include three subsections: **Goals** (bullet list of what this feature must achieve), **Non-Goals** (what it deliberately avoids), **Target Users** (primary personas and their context).
+- Include two subsections: **Goals** (bullet list of what this feature must achieve), **Non-Goals** (what it deliberately avoids).
 
-### Traceability
+### Architecture
 
-- Every requirement (`1.1`, `1.2`, `2.1`, …) from `requirements.md` must be addressed by at least one component, flow, or interface in the design.
-- If a requirement has no obvious mapping, add an entry to `## Open Questions` as `**Q<n>** _(open)_ — <question>`, numbered sequentially starting from `Q1` within `design.md`. Do not silently drop the requirement.
-
-### Architecture diagram
-
-- Include **at least one Mermaid `graph TD`** diagram showing the major components and how they interact. Replace the placeholder labels with concrete names from this feature.
-
-### System Flows
-
-- Include **at least one Mermaid `sequenceDiagram`** for the happy path of the primary user action.
-- Include a second sequence diagram for an error or edge-case path if the feature has meaningful failure modes.
-
-### Technology Stack
-
-- Include a table with columns: **Layer**, **Choice**, **Alternatives considered**, **Rationale**. Cover at minimum the layers relevant to the feature (e.g. Frontend, State, Backend, Persistence). Ground choices in the project's `package.json` and existing tech stack where possible.
+- Include **at least one Mermaid diagram** showing the major components and how they interact. Choose the form that best explains the feature:
+  - `graph TD` for component relationships and data flow
+  - `sequenceDiagram` for interaction-heavy features
+- A second diagram of the other type is welcome but not required.
 
 ### Design Decisions
 
-- The Design Decisions section must be **genuinely filled** — not left as a placeholder. Document at least 2 real decisions with Context / Alternatives / Choice / Rationale / Trade-offs. Pick decisions that actually matter for this feature (e.g. state management approach, data fetching strategy, validation library, persistence layer choice).
+- Document at least 2 real decisions with Context / Alternatives / Choice / Rationale / Trade-offs. Pick decisions that actually matter for this feature.
+- Include technology choices (e.g. which state management library, which validation approach) and security-sensitive patterns (auth, data exposure, input validation) as decisions when they are non-obvious. Do not create separate Technology Stack or Security sections.
 
 ### Components & Interfaces
 
@@ -119,19 +109,11 @@ Produce a complete `design.md` with the following sections in this exact order: 
 ### Data Models
 
 - Include both **logical** and **physical** representations when the feature involves persistence.
-- Skip the Physical model section if there is no persistence layer; do not leave it as placeholder.
-
-### Error Handling
-
-- The Error Handling table must cover relevant 4xx/5xx/422 cases for any request flow in the feature. Remove rows that do not apply rather than leaving placeholders.
-
-### Testing Strategy and Security
-
-- Both must be filled with concrete, feature-specific guidance, not generic boilerplate.
+- Skip this section entirely if there is no persistence layer; do not leave it as placeholder.
 
 ### Open Questions
 
-Whenever you are not certain about a design-time choice — which library to use, which schema shape to commit to, how to model a state transition, an unmapped requirement, etc. — **do not guess**. Add an entry to the `## Open Questions` section as:
+Whenever you are not certain about a design-time choice — which library to use, which schema shape to commit to, how to model a state transition, etc. — **do not guess**. Add an entry to the `## Open Questions` section as:
 
 ```
 - **Q<n>** _(open)_ — <the question, phrased so a human can answer it>

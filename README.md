@@ -7,7 +7,7 @@ A Claude Code plugin that configures a productive web development environment. I
 - **Settings** — Prettier auto-formatting on stop, always-thinking mode, telemetry disabled, security deny-list for destructive commands and sensitive paths
 - **4 Agents** — Code review, performance analysis, accessibility audit, content audit
 - **1 Skill** — Web content writing (`/content-write`)
-- **6 Commands** — Quick single-file spec scaffolder (`/spec-quick`), full Spec-Driven Development workflow (`/spec-init`, `/spec-requirements`, `/spec-design`, `/spec-tasks`), and conventional-commit message generator (`/commit-message`)
+- **5 Commands** — Quick single-file spec scaffolder (`/spec-quick`), full Spec-Driven Development workflow (`/spec-requirements`, `/spec-design`, `/spec-tasks`), and conventional-commit message generator (`/commit-message`)
 - **3 MCP Servers** — Context7 (library docs), Playwright (browser automation), shadcn (UI components with tweakcn theme)
 - **Custom Status Line** — Shows model name, context usage %, session duration, git branch, and line change stats
 
@@ -50,18 +50,16 @@ Arguments: `<short feature description>`
 
 For non-trivial features where you want requirements → design → tasks traceability, use the SDD workflow. Each command is one stage, with an explicit review gate before the next.
 
-| Command                           | Purpose                                                                                                                                 |
-| --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
-| `/spec-init <slug> <description>` | Scaffold `_specs/<slug>/` (requirements, design, tasks, .spec-meta.json) and create the feature branch. Aborts on a dirty working tree. |
-| `/spec-requirements <slug>`       | Generate `requirements.md` with strict EARS-format acceptance criteria (`WHEN/IF/WHILE/WHERE … THEN the system SHALL …`)                |
-| `/spec-design <slug>`             | Generate `design.md` from requirements — architecture, Mermaid diagrams, design decisions, data models, error handling. Uses Context7.  |
-| `/spec-tasks <slug>`              | Generate `tasks.md` from requirements + design. Each sub-task references requirement IDs; uncovered requirements are flagged.           |
+| Command                                   | Purpose                                                                                                                |
+| ----------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `/spec-requirements <slug> <description>` | Initialize feature (branch + folder + `.spec-meta.json`) and generate `requirements.md` with EARS-format criteria.     |
+| `/spec-design <slug>`                     | Generate `design.md` from requirements — architecture, Mermaid diagrams, design decisions, data models. Uses Context7. |
+| `/spec-tasks <slug>`                      | Generate `tasks.md` from requirements + design. Each sub-task references requirement IDs; uncovered gaps are flagged.  |
 
 Worked example:
 
 ```
-/spec-init card-component Dashboard stats card with title, value, and trend
-/spec-requirements card-component
+/spec-requirements card-component Dashboard stats card with title, value, and trend
 # review _specs/card-component/requirements.md, edit as needed
 /spec-design card-component
 # review design.md
@@ -69,7 +67,7 @@ Worked example:
 # review tasks.md, check the Coverage Summary, start implementing
 ```
 
-**When to use which:** rule of thumb — if the feature will take more than a day or touches more than three files, use `/spec-init`. Otherwise `/spec-quick` is faster and lighter.
+**When to use which:** rule of thumb — if the feature will take more than a day or touches more than three files, use `/spec-requirements`. Otherwise `/spec-quick` is faster and lighter.
 
 ### `/commit-message`
 

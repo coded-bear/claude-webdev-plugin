@@ -24,16 +24,16 @@ The user may pass an exact slug, a Title Case name, or nothing at all. Resolve a
 Read `_specs/<slug>/.spec-meta.json`. If it does not exist, abort with:
 
 ```
-No SDD feature found at _specs/<slug>/. Run `/spec-init <slug> <description>` first.
+No SDD feature found at _specs/<slug>/. Run `/spec-requirements <slug> <description>` first.
 ```
 
-Both `stages.requirements` AND `stages.design` must be `"drafted"` or beyond. If either is missing, abort with a specific message naming the missing step:
+`stages.requirements` must be `"drafted"` or beyond. If it is `"pending"`, abort with:
 
 ```
 Requirements are not drafted yet. Run `/spec-requirements <slug>` first.
 ```
 
-or
+`stages.design` must be `"drafted"` or beyond. If it is `"pending"`, abort with:
 
 ```
 Design is not drafted yet. Run `/spec-design <slug>` first.
@@ -88,8 +88,7 @@ Produce a complete `tasks.md` with the following sections in this exact order: *
 
 ### Phase structure
 
-- Organize phases around the design's component breakdown. Good defaults if the design does not strongly suggest otherwise: `data → API → UI → integration → tests → polish`. Aim for 5–8 phases.
-- Each phase has a clear name describing what the phase delivers.
+- Organize phases around the design's component breakdown. Aim for **3–6 phases**. Each phase has a clear name describing what it delivers.
 
 ### Sub-task discipline
 
@@ -98,20 +97,18 @@ Produce a complete `tasks.md` with the following sections in this exact order: *
 - Each sub-task is a checkbox: `- [ ]` (always unchecked at generation time).
 - Each sub-task ends with an inline requirement reference: `_Requirements: 1.1, 2.3_`. **Tasks without a requirement reference are forbidden** unless explicitly noted as "infra" or "tooling" with a brief justification on the same line — and even then, prefer to find a requirement to cite.
 
-### Verification, audit, and review tasks
+### Review phase
 
-For verification, audit, and review sub-tasks, **explicitly invoke the relevant repo agent** rather than describing the activity generically. Map as follows:
+The final phase must include a `code-reviewer` agent pass over the full diff. Add other agents only when relevant to the feature:
 
-- **Accessibility / WCAG audit** → `a11y-auditor` agent → references `NFR-a11y`
-- **Performance / re-render / bundle / Web Vitals checks** → `performance-reviewer` agent → references `NFR-perf`
-- **Full-diff code review (bugs, types, architecture, security, readability)** → `code-reviewer` agent → references `NFR-security` or any quality NFR
-- **Copy, headings, SEO, content quality** → `content-auditor` agent → references the relevant content/SEO NFR if one exists
+| Concern       | Agent                  | NFR ref     |
+| ------------- | ---------------------- | ----------- |
+| Accessibility | `a11y-auditor`         | `NFR-a11y`  |
+| Performance   | `performance-reviewer` | `NFR-perf`  |
+| Content/copy  | `content-auditor`      | content NFR |
 
-Phrase these tasks as `<short description> — invoke the \`<agent-name>\` agent on <scope>`, e.g. `Accessibility audit — invoke the \`a11y-auditor\` agent on the booking flow UI`.
-
-A "Review" or "Polish & launch" phase should **always** include a `code-reviewer` pass over the full diff before merge. Include `a11y-auditor` whenever the feature touches UI, `performance-reviewer` whenever it is performance-sensitive (large lists, frequent re-renders, server components, image-heavy, data fetching on hot paths), and `content-auditor` whenever user-facing copy or heading structure changes. Skip an agent task if its concern genuinely does not apply to the feature — do not pad.
-
-For E2E and visual verification tasks where running the app and clicking through is required, prefer the **Playwright MCP** (browser tooling) over describing manual steps.
+Phrase as: `<description> — invoke the \`<agent-name>\` agent on <scope>`.
+For E2E and visual verification, prefer **Playwright MCP** over manual steps.
 
 ### Requirements Coverage Summary
 
