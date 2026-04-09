@@ -19,7 +19,7 @@ The user may pass an exact slug, a Title Case name, or nothing at all. Resolve a
 - If `$ARGUMENTS` is empty, infer the slug from the current git branch (`claude/feature/<slug>`). If that fails, ask the user which feature.
 - Otherwise normalize the input to a kebab-case slug and `Glob` for `_specs/<slug>/.spec-meta.json`. If exactly one feature folder matches partially, use it. If multiple match, list them and ask the user to pick.
 
-## Step 2. Validate prerequisites
+## Step 2. Validate and read context
 
 Read `_specs/<slug>/.spec-meta.json`. If it does not exist, abort with:
 
@@ -27,38 +27,28 @@ Read `_specs/<slug>/.spec-meta.json`. If it does not exist, abort with:
 No SDD feature found at _specs/<slug>/. Run `/spec-requirements <slug> <description>` first.
 ```
 
-`stages.requirements` must be `"drafted"` or beyond. If it is `"pending"`, abort with:
+Both `stages.requirements` and `stages.design` must be `"drafted"` or beyond. If either is `"pending"`, abort:
 
-```
-Requirements are not drafted yet. Run `/spec-requirements <slug>` first.
-```
-
-`stages.design` must be `"drafted"` or beyond. If it is `"pending"`, abort with:
-
-```
-Design is not drafted yet. Run `/spec-design <slug>` first.
-```
+- requirements pending: `Requirements are not drafted yet. Run /spec-requirements <slug> first.`
+- design pending: `Design is not drafted yet. Run /spec-design <slug> first.`
 
 If `stages.tasks` is already `"drafted"` or beyond, ask the user to confirm overwrite. Regenerate from scratch on confirmation.
 
-## Step 3. Read context
+Then read:
 
-Read all of:
-
-- `_specs/<slug>/.spec-meta.json`
 - `_specs/<slug>/requirements.md` (full content — needed for ID extraction and coverage)
 - `_specs/<slug>/design.md` (full content — phase structure follows the design's component breakdown)
 - The project's `CLAUDE.md` if present
 
-## Step 3.5. Validate open questions
+## Step 3. Validate open questions
 
-After reading `design.md` in Step 3, parse its `## Open Questions` section. Find every entry matching the pattern:
+Parse the `## Open Questions` section in `design.md`. Find every entry matching:
 
 ```
 - **Q<digits>** _(open)_ — <text>
 ```
 
-If at least one such entry exists, abort with:
+If at least one exists, abort with:
 
 ```
 Cannot proceed: design.md has unresolved open questions:
@@ -69,9 +59,7 @@ Resolve them in design.md (mark each as `(resolved: <decision>)` or
 `(wont-fix)`) before running /spec-tasks.
 ```
 
-There is no override flag. If the user wants to proceed without answering a question, they must explicitly mark it `(wont-fix)` so the gap is recorded as a deliberate choice.
-
-Entries with status `(resolved: ...)` or `(wont-fix)` do not block. A section containing only `- (none)` does not block.
+There is no override flag — to skip a question, mark it `(wont-fix)`. Entries with `(resolved: ...)` or `(wont-fix)` do not block. `- (none)` does not block.
 
 ## Step 4. Extract requirement IDs
 
@@ -119,22 +107,13 @@ For E2E and visual verification, prefer **Playwright MCP** over manual steps.
 
 - If the design explicitly defers anything, list it here. Otherwise leave a single bullet `- (none)`.
 
-## Step 6. Write the file
+## Step 6. Write file and update metadata
 
-Write `_specs/<slug>/tasks.md` with the generated content and frontmatter:
+Write `_specs/<slug>/tasks.md` with frontmatter: `status: drafted`, `created: <today YYYY-MM-DD>`, `last-updated: <today YYYY-MM-DD>`.
 
-- `status: drafted`
-- `created: <today YYYY-MM-DD>`
-- `last-updated: <today YYYY-MM-DD>`
+Update `_specs/<slug>/.spec-meta.json`: set `stages.tasks = "drafted"` and `last_updated = <today YYYY-MM-DD>`.
 
-## Step 7. Update metadata
-
-Update `_specs/<slug>/.spec-meta.json`:
-
-- `stages.tasks = "drafted"`
-- `last_updated = <today YYYY-MM-DD>`
-
-## Step 8. Final output
+## Step 7. Final output
 
 Print:
 

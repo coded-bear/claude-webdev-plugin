@@ -21,7 +21,7 @@ The user may pass an exact slug, a Title Case name, or nothing at all. Resolve a
 - If `$ARGUMENTS` is empty, infer the slug from the current git branch (`claude/feature/<slug>`). If that fails, ask the user which feature.
 - Otherwise normalize the input to a kebab-case slug and `Glob` for `_specs/<slug>/.spec-meta.json`. If exactly one feature folder matches partially, use it. If multiple match, list them and ask the user to pick.
 
-## Step 2. Validate prerequisites
+## Step 2. Validate and read context
 
 Read `_specs/<slug>/.spec-meta.json`. If it does not exist, abort with:
 
@@ -39,24 +39,21 @@ Check `stages.requirements`:
 
 If `stages.design` is already `"drafted"` or beyond, ask the user to confirm overwrite before continuing. Regenerate from scratch on confirmation.
 
-## Step 3. Read context
+Then read:
 
-Read all of:
-
-- `_specs/<slug>/.spec-meta.json`
-- `_specs/<slug>/requirements.md` (the full drafted requirements — needed for traceability)
+- `_specs/<slug>/requirements.md` (full drafted requirements)
 - The project's `CLAUDE.md` if present
 - The project's `package.json` if present (for tech stack grounding)
 
-## Step 3.5. Validate open questions
+## Step 3. Validate open questions
 
-After reading `requirements.md` in Step 3, parse its `## Open Questions` section. Find every entry matching the pattern:
+Parse the `## Open Questions` section in `requirements.md`. Find every entry matching:
 
 ```
 - **Q<digits>** _(open)_ — <text>
 ```
 
-If at least one such entry exists, abort with:
+If at least one exists, abort with:
 
 ```
 Cannot proceed: requirements.md has unresolved open questions:
@@ -67,9 +64,7 @@ Resolve them in requirements.md (mark each as `(resolved: <decision>)` or
 `(wont-fix)`) before running /spec-design.
 ```
 
-There is no override flag. If the user wants to proceed without answering a question, they must explicitly mark it `(wont-fix)` so the gap is recorded as a deliberate choice.
-
-Entries with status `(resolved: ...)` or `(wont-fix)` do not block. A section containing only `- (none)` does not block.
+There is no override flag — to skip a question, mark it `(wont-fix)`. Entries with `(resolved: ...)` or `(wont-fix)` do not block. `- (none)` does not block.
 
 ## Step 4. Consult Context7 when needed
 
@@ -78,9 +73,7 @@ For any library or framework that will be **load-bearing** in the design (mentio
 1. Call `mcp__context7__resolve-library-id` with the library name.
 2. Call `mcp__context7__query-docs` for the specific topic you need (API surface, configuration, version-specific behavior).
 
-**Rule:** Do not invent framework APIs from memory when Context7 is available. Training data may be stale. This applies even to well-known libraries like React, Next.js, Prisma, etc.
-
-Be selective — only consult Context7 for libraries that meaningfully shape the design. Do not query for incidental dependencies.
+**Rule:** Do not invent framework APIs from memory — training data may be stale. Be selective: only consult Context7 for libraries that meaningfully shape the design.
 
 ## Step 5. Generate the design document
 
@@ -92,10 +85,7 @@ Produce a complete `design.md` with the following sections in this exact order: 
 
 ### Architecture
 
-- Include **at least one Mermaid diagram** showing the major components and how they interact. Choose the form that best explains the feature:
-  - `graph TD` for component relationships and data flow
-  - `sequenceDiagram` for interaction-heavy features
-- A second diagram of the other type is welcome but not required.
+- Include **at least one Mermaid diagram** (`graph TD` for data flow, or `sequenceDiagram` for interactions). A second diagram is welcome but not required.
 
 ### Design Decisions
 
@@ -123,22 +113,13 @@ Number sequentially starting from `Q1` (the design's `Q*` namespace is independe
 
 Open questions are the **only** acceptable place to record uncertainty. Do not commit to an arbitrary library/pattern just to make the section look complete — surface the choice as a Q. `/spec-tasks` will refuse to run while any `(open)` entries remain.
 
-## Step 6. Write the file
+## Step 6. Write file and update metadata
 
-Write `_specs/<slug>/design.md` with the generated content and frontmatter:
+Write `_specs/<slug>/design.md` with frontmatter: `status: drafted`, `created: <today YYYY-MM-DD>`, `last-updated: <today YYYY-MM-DD>`.
 
-- `status: drafted`
-- `created: <today YYYY-MM-DD>`
-- `last-updated: <today YYYY-MM-DD>`
+Update `_specs/<slug>/.spec-meta.json`: set `stages.design = "drafted"` and `last_updated = <today YYYY-MM-DD>`.
 
-## Step 7. Update metadata
-
-Update `_specs/<slug>/.spec-meta.json`:
-
-- `stages.design = "drafted"`
-- `last_updated = <today YYYY-MM-DD>`
-
-## Step 8. Final output
+## Step 7. Final output
 
 Print:
 
