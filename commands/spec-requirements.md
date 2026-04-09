@@ -23,13 +23,8 @@ From `$ARGUMENTS`, split on the first whitespace:
 
 Derive:
 
-1. `feature_slug`
-   - Lowercase, kebab-case, only `a-z`, `0-9` and `-`
-   - Replace spaces and punctuation with `-`
-   - Collapse multiple `-` into one, trim `-` from start and end
-   - Maximum length 40 characters
-2. `feature_title`
-   - Title Case version of the slug (e.g. `card-component` → `Card Component`)
+1. `feature_slug` — lowercase kebab-case (`a-z 0-9 -`), max 40 chars
+2. `feature_title` — Title Case of slug (`card-component` → `Card Component`)
 
 Then `Glob` for `_specs/<feature_slug>/.spec-meta.json`:
 
@@ -40,21 +35,10 @@ If `$ARGUMENTS` is entirely empty, infer the slug from the current git branch (`
 
 ## Step 2. Initialize feature (INIT mode only)
 
-### 2a. Check the working tree
-
-Run `git status --porcelain`. If there is any output (uncommitted, unstaged, or untracked files), abort and tell the user to commit or stash changes before proceeding. DO NOT GO ANY FURTHER.
-
-### 2b. Collision check
-
-Use `Glob` to check whether `_specs/<feature_slug>/` already exists. Also check `git branch --list claude/feature/<feature_slug>`. If either is taken, auto-increment the slug by appending `-02`, `-03`, etc. until both are free.
-
-### 2c. Create branch
-
-Run `git switch -c claude/feature/<feature_slug>`.
-
-### 2d. Create folder and metadata
-
-Create `_specs/<feature_slug>/` and write `.spec-meta.json`:
+1. **Working tree check** — `git status --porcelain`. If any output, abort: tell user to commit or stash. DO NOT GO ANY FURTHER.
+2. **Collision check** — Glob `_specs/<feature_slug>/` + `git branch --list claude/feature/<feature_slug>`. If taken, auto-increment slug (`-02`, `-03`, …).
+3. **Create branch** — `git switch -c claude/feature/<feature_slug>`.
+4. **Create folder and metadata** — Create `_specs/<feature_slug>/` and write `.spec-meta.json`:
 
 ```json
 {
@@ -74,7 +58,7 @@ Create `_specs/<feature_slug>/` and write `.spec-meta.json`:
 
 This file is owned by the `/spec-*` commands. The user should not hand-edit it.
 
-## Step 3. Validate prerequisites
+## Step 3. Validate and read context
 
 Read `_specs/<feature_slug>/.spec-meta.json`. In RE-RUN mode, if it does not exist, abort with:
 
@@ -84,14 +68,12 @@ No SDD feature found at _specs/<slug>/. Run `/spec-requirements <slug> <descript
 
 If `stages.requirements` is already `drafted` or beyond, ask the user to confirm overwrite before continuing. If they confirm, regenerate from scratch — do NOT try to merge with the existing content.
 
-## Step 4. Read context
+Then read:
 
-Read all of:
-
-- `_specs/<slug>/.spec-meta.json` (for the original `description` — used to generate the Introduction)
+- `.spec-meta.json` `description` field (used to generate the Introduction)
 - The project's `CLAUDE.md` if present (for codebase-specific conventions)
 
-## Step 5. Generate the requirements document
+## Step 4. Generate the requirements document
 
 Produce a complete `requirements.md` with the following sections in this exact order: **Introduction**, **Requirements**, **Open Questions**, **Non-Functional Requirements**, **Out of Scope**. Apply these rules:
 
@@ -109,11 +91,12 @@ Produce a complete `requirements.md` with the following sections in this exact o
 
 **EARS syntax is mandatory** for every acceptance criterion. Allowed forms:
 
-- `WHEN <trigger> THEN the system SHALL <observable behavior>.`
-- `WHEN <trigger> AND <additional condition> THEN the system SHALL <observable behavior>.`
-- `IF <precondition is not met> THEN the system SHALL <error or fallback behavior>.`
-- `WHILE <ongoing state> the system SHALL <continuous behavior>.`
-- `WHERE <contextual constraint> the system SHALL <conditional behavior>.`
+| Keyword | Pattern                                                              |
+| ------- | -------------------------------------------------------------------- |
+| WHEN    | `WHEN <trigger> [AND <condition>] THEN the system SHALL <behavior>.` |
+| IF      | `IF <precondition not met> THEN the system SHALL <fallback>.`        |
+| WHILE   | `WHILE <state> the system SHALL <continuous behavior>.`              |
+| WHERE   | `WHERE <constraint> the system SHALL <conditional behavior>.`        |
 
 Every criterion must be **observable and testable**. Avoid implementation details (no specific component names, no DB column names — that belongs in design).
 
@@ -137,34 +120,18 @@ Number sequentially starting from `Q1`. The `## Open Questions` section must alw
 
 This section is the **only** acceptable place to record uncertainty. Do not bake guesses into "the system SHALL …" lines and do not silently widen scope to cover an unstated case — surface it as a Q instead. `/spec-design` will refuse to run while any `(open)` entries remain.
 
-## Step 6. Write the file
+## Step 5. Write file and update metadata
 
-Write `_specs/<slug>/requirements.md` with the generated content and frontmatter:
+Write `_specs/<slug>/requirements.md` with frontmatter: `status: drafted`, `created: <today YYYY-MM-DD>`, `last-updated: <today YYYY-MM-DD>`.
 
-- `status: drafted`
-- `created: <today YYYY-MM-DD>`
-- `last-updated: <today YYYY-MM-DD>`
+Update `_specs/<slug>/.spec-meta.json`: set `stages.requirements = "drafted"` and `last_updated = <today YYYY-MM-DD>`.
 
-## Step 7. Update metadata
+## Step 6. Final output
 
-Update `_specs/<slug>/.spec-meta.json`:
-
-- `stages.requirements = "drafted"`
-- `last_updated = <today YYYY-MM-DD>`
-
-## Step 8. Final output
-
-In INIT mode, print:
+Print (include the `Branch:` line only in INIT mode):
 
 ```
 Branch: claude/feature/<slug>
-Generated: _specs/<slug>/requirements.md
-Please review and edit as needed. When ready, run `/spec-design <slug>`.
-```
-
-In RE-RUN mode, print:
-
-```
 Generated: _specs/<slug>/requirements.md
 Please review and edit as needed. When ready, run `/spec-design <slug>`.
 ```
