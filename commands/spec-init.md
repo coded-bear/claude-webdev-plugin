@@ -58,40 +58,78 @@ Run `git switch -c <branch_name>`.
 
 ## Step 5. Create the feature folder and stub files
 
-Read each template and write a stubbed copy into `_specs/<feature_slug>/`.
+Create the folder `_specs/<feature_slug>/` and write the following stub files.
 
 ### `_specs/<feature_slug>/requirements.md`
 
-- Read `_specs/templates/requirements.md`.
-- Replace `<feature-name>` in the H1 with `feature_title`.
-- Fill `created` and `last-updated` with today's date in `YYYY-MM-DD` format.
-- Set `status: stub`.
-- **Pre-fill the Introduction section** from the user's `description`. Expand it lightly into 1–2 paragraphs that capture the problem the feature solves, who it is for, and the rough scope. Do NOT invent details that were not in the description.
-- Replace the Requirements section with a single placeholder:
+Write the file with the following structure. Fill `created` and `last-updated` with today's date in `YYYY-MM-DD` format.
 
-  ```
-  ### Requirement 1 — TBD
+**Pre-fill the Introduction section** from the user's `description`. Expand it lightly into 1–2 paragraphs that capture the problem the feature solves, who it is for, and the rough scope. Do NOT invent details that were not in the description.
 
-  _This file is a stub. Run `/spec-requirements <feature_slug>` to generate full EARS-format requirements._
-  ```
+```markdown
+# Requirements — <feature_title>
 
-- Leave Non-Functional Requirements and Out of Scope as-is from the template.
+status: stub
+created: <YYYY-MM-DD>
+last-updated: <YYYY-MM-DD>
+
+## Introduction
+
+<Pre-filled from description — 1–2 paragraphs>
+
+## Requirements
+
+### Requirement 1 — TBD
+
+_This file is a stub. Run `/spec-requirements <feature_slug>` to generate full EARS-format requirements._
+
+## Open Questions
+
+- (none)
+
+## Non-Functional Requirements
+
+- **Performance:** <TBD>
+- **Accessibility:** <TBD>
+- **Security & privacy:** <TBD>
+- **Browser / device support:** <TBD>
+- **Internationalization:** <TBD>
+
+## Out of Scope
+
+- <TBD>
+```
 
 ### `_specs/<feature_slug>/design.md`
 
-- Read `_specs/templates/design.md`.
-- Replace `<feature-name>` in the H1 with `feature_title`.
-- Fill `created` and `last-updated` with today's date.
-- Set `status: pending`.
-- Leave the body unchanged from the template.
+Write the file with the following structure. Fill `created` and `last-updated` with today's date. Set `status: pending`.
+
+```markdown
+# Design — <feature_title>
+
+status: pending
+created: <YYYY-MM-DD>
+last-updated: <YYYY-MM-DD>
+requirements: ./requirements.md
+
+_This file is a stub. Run `/spec-design <feature_slug>` after requirements are drafted._
+```
 
 ### `_specs/<feature_slug>/tasks.md`
 
-- Read `_specs/templates/tasks.md`.
-- Replace `<feature-name>` in the H1 with `feature_title`.
-- Fill `created` and `last-updated` with today's date.
-- Set `status: pending`.
-- Leave the body unchanged from the template.
+Write the file with the following structure. Fill `created` and `last-updated` with today's date. Set `status: pending`.
+
+```markdown
+# Tasks — <feature_title>
+
+status: pending
+created: <YYYY-MM-DD>
+last-updated: <YYYY-MM-DD>
+requirements: ./requirements.md
+design: ./design.md
+
+_This file is a stub. Run `/spec-tasks <feature_slug>` after design is drafted._
+```
 
 ### `_specs/<feature_slug>/.spec-meta.json`
 

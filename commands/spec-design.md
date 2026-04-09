@@ -45,7 +45,6 @@ Read all of:
 
 - `_specs/<slug>/.spec-meta.json`
 - `_specs/<slug>/requirements.md` (the full drafted requirements — needed for traceability)
-- `_specs/templates/design.md` (the structural blueprint)
 - The project's `CLAUDE.md` if present
 - The project's `package.json` if present (for tech stack grounding)
 
@@ -85,7 +84,11 @@ Be selective — only consult Context7 for libraries that meaningfully shape the
 
 ## Step 5. Generate the design document
 
-Produce a complete `design.md` that follows the template structure exactly. Apply these rules:
+Produce a complete `design.md` with the following sections in this exact order: **Overview**, **Architecture**, **Technology Stack**, **Design Decisions**, **System Flows**, **Components & Interfaces**, **Data Models**, **Error Handling**, **Testing Strategy**, **Security Considerations**, **Open Questions**. Apply these rules:
+
+### Overview
+
+- Include three subsections: **Goals** (bullet list of what this feature must achieve), **Non-Goals** (what it deliberately avoids), **Target Users** (primary personas and their context).
 
 ### Traceability
 
@@ -100,6 +103,10 @@ Produce a complete `design.md` that follows the template structure exactly. Appl
 
 - Include **at least one Mermaid `sequenceDiagram`** for the happy path of the primary user action.
 - Include a second sequence diagram for an error or edge-case path if the feature has meaningful failure modes.
+
+### Technology Stack
+
+- Include a table with columns: **Layer**, **Choice**, **Alternatives considered**, **Rationale**. Cover at minimum the layers relevant to the feature (e.g. Frontend, State, Backend, Persistence). Ground choices in the project's `package.json` and existing tech stack where possible.
 
 ### Design Decisions
 

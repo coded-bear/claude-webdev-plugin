@@ -37,12 +37,11 @@ Read all of:
 
 - `_specs/<slug>/.spec-meta.json` (for the original `description`)
 - `_specs/<slug>/requirements.md` (the current stub — note the pre-filled Introduction)
-- `_specs/templates/requirements.md` (the structural blueprint)
 - The project's `CLAUDE.md` if present (for codebase-specific conventions)
 
 ## Step 4. Generate the requirements document
 
-Produce a complete `requirements.md` that follows the template structure exactly. Apply these rules:
+Produce a complete `requirements.md` with the following sections in this exact order: **Introduction**, **Requirements**, **Open Questions**, **Non-Functional Requirements**, **Out of Scope**. Apply these rules:
 
 ### Introduction
 

@@ -48,7 +48,6 @@ Read all of:
 - `_specs/<slug>/.spec-meta.json`
 - `_specs/<slug>/requirements.md` (full content — needed for ID extraction and coverage)
 - `_specs/<slug>/design.md` (full content — phase structure follows the design's component breakdown)
-- `_specs/templates/tasks.md` (the structural blueprint)
 - The project's `CLAUDE.md` if present
 
 ## Step 3.5. Validate open questions
@@ -85,7 +84,7 @@ You will need this complete list later for the Coverage Summary.
 
 ## Step 5. Generate the tasks document
 
-Produce a complete `tasks.md` that follows the template structure. Apply these rules:
+Produce a complete `tasks.md` with the following sections in this exact order: **Implementation Plan** (with phases), **Requirements Coverage Summary**, **Out of Scope (deferred)**. Apply these rules:
 
 ### Phase structure
 

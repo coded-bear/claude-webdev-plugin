@@ -54,7 +54,44 @@ Before making any content, switch to a new Git branch using the `branch_name` de
 
 ## Step 4. Draft the spec content
 
-Create a markdown spec document that Plan mode can use directly and save it in the \_specs folder using the `feature_slug`. Use the exact structure as defined in the spec template file here: @\_specs/templates/quick.md. Do not add technical implementation details such as code examples.
+Create a markdown spec document that Plan mode can use directly and save it in the `_specs` folder using the `feature_slug`. Use the exact structure below. Do not add technical implementation details such as code examples.
+
+```markdown
+# Spec for <feature_title>
+
+branch: <branch_name>
+
+## Summary
+
+<1–2 paragraphs describing the feature>
+
+## Functional Requirements
+
+- <requirement 1>
+- <requirement 2>
+- ...
+
+## Possible Edge Cases
+
+- <edge case 1>
+- ...
+
+## Acceptance Criteria
+
+- <criterion 1>
+- ...
+
+## Open Questions
+
+- <question or `(none)`>
+
+## Testing Guidelines
+
+Create a test file(s) in the ./tests folder for the new feature, and create meaningful tests for the following cases, without going too heavy:
+
+- <test case 1>
+- ...
+```
 
 ## Step 5. Final output to the user
 

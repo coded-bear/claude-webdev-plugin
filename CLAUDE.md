@@ -18,9 +18,6 @@ A Claude Code plugin (`claude-webdev-plugin`) that configures a productive web d
 agents/                — Custom agent definitions (Markdown with YAML frontmatter)
 skills/                — Custom skill definitions (Markdown with YAML frontmatter)
 commands/              — Custom slash command definitions (Markdown with YAML frontmatter)
-_specs/
-  templates/           — Templates used by the SDD workflow (requirements, design, tasks)
-  <feature-slug>/      — One folder per SDD feature (created by /spec-init)
 statusline.sh          — Custom status line script (model, context %, session time, git branch, line stats)
 ```
 
@@ -58,7 +55,7 @@ Each skill lives in a directory with a `SKILL.md` file (YAML frontmatter with `n
 
 Each command is a Markdown file with YAML frontmatter (`description`, `argument-hint`, `allowed-tools`):
 
-- **spec-quick** — Turns a short feature idea into a kebab-case title, a new git branch (`claude/feature/<slug>`), and a detailed single-file spec in `_specs/<slug>.md` based on `_specs/template.md`. Aborts if the working tree is dirty. Invoked with `/spec-quick <short feature description>`
+- **spec-quick** — Turns a short feature idea into a kebab-case title, a new git branch (`claude/feature/<slug>`), and a detailed single-file spec in `_specs/<slug>.md`. Aborts if the working tree is dirty. Invoked with `/spec-quick <short feature description>`
 - **spec-init** — First step of the SDD workflow. Creates `_specs/<slug>/` with stub `requirements.md`, `design.md`, `tasks.md`, and `.spec-meta.json`, plus a new git branch. Aborts if the working tree is dirty. Invoked with `/spec-init <feature-name> <description>`
 - **spec-requirements** — Generates a full `requirements.md` for an initialized SDD feature using strict EARS-format acceptance criteria with stable numbered IDs. Invoked with `/spec-requirements <feature-name>`
 - **spec-design** — Generates a full `design.md` (architecture, Mermaid diagrams, design decisions, data models, error handling, testing, security) once requirements are drafted. Consults the Context7 MCP for load-bearing libraries. Invoked with `/spec-design <feature-name>`
