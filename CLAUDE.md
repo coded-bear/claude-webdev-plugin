@@ -56,7 +56,7 @@ Each skill lives in a directory with a `SKILL.md` file (YAML frontmatter with `n
 Each command is a Markdown file with YAML frontmatter (`description`, `argument-hint`, `allowed-tools`):
 
 - **spec-quick** — Turns a short feature idea into a kebab-case title, a new git branch (`claude/feature/<slug>`), and a detailed single-file spec in `_specs/<slug>.md`. Aborts if the working tree is dirty. Invoked with `/spec-quick <short feature description>`
-- **spec-init** — First step of the SDD workflow. Creates `_specs/<slug>/` with stub `requirements.md`, `design.md`, `tasks.md`, and `.spec-meta.json`, plus a new git branch. Aborts if the working tree is dirty. Invoked with `/spec-init <feature-name> <description>`
+- **spec-init** — First step of the SDD workflow. Creates `_specs/<slug>/` with `.spec-meta.json` and a new git branch. Aborts if the working tree is dirty. Invoked with `/spec-init <feature-name> <description>`
 - **spec-requirements** — Generates a full `requirements.md` for an initialized SDD feature using strict EARS-format acceptance criteria with stable numbered IDs. Invoked with `/spec-requirements <feature-name>`
 - **spec-design** — Generates a full `design.md` (architecture, Mermaid diagrams, design decisions, data models, error handling, testing, security) once requirements are drafted. Consults the Context7 MCP for load-bearing libraries. Invoked with `/spec-design <feature-name>`
 - **spec-tasks** — Generates a full `tasks.md` once both requirements and design are drafted. Each sub-task carries an inline `_Requirements: X.Y_` reference and the closing Coverage Summary flags any uncovered requirements as `⚠️ UNCOVERED`. Invoked with `/spec-tasks <feature-name>`

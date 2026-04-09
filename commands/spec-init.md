@@ -56,80 +56,9 @@ Use `Glob` to check whether `_specs/<feature_slug>/` already exists.
 
 Run `git switch -c <branch_name>`.
 
-## Step 5. Create the feature folder and stub files
+## Step 5. Create the feature folder and metadata file
 
-Create the folder `_specs/<feature_slug>/` and write the following stub files.
-
-### `_specs/<feature_slug>/requirements.md`
-
-Write the file with the following structure. Fill `created` and `last-updated` with today's date in `YYYY-MM-DD` format.
-
-**Pre-fill the Introduction section** from the user's `description`. Expand it lightly into 1–2 paragraphs that capture the problem the feature solves, who it is for, and the rough scope. Do NOT invent details that were not in the description.
-
-```markdown
-# Requirements — <feature_title>
-
-status: stub
-created: <YYYY-MM-DD>
-last-updated: <YYYY-MM-DD>
-
-## Introduction
-
-<Pre-filled from description — 1–2 paragraphs>
-
-## Requirements
-
-### Requirement 1 — TBD
-
-_This file is a stub. Run `/spec-requirements <feature_slug>` to generate full EARS-format requirements._
-
-## Open Questions
-
-- (none)
-
-## Non-Functional Requirements
-
-- **Performance:** <TBD>
-- **Accessibility:** <TBD>
-- **Security & privacy:** <TBD>
-- **Browser / device support:** <TBD>
-- **Internationalization:** <TBD>
-
-## Out of Scope
-
-- <TBD>
-```
-
-### `_specs/<feature_slug>/design.md`
-
-Write the file with the following structure. Fill `created` and `last-updated` with today's date. Set `status: pending`.
-
-```markdown
-# Design — <feature_title>
-
-status: pending
-created: <YYYY-MM-DD>
-last-updated: <YYYY-MM-DD>
-requirements: ./requirements.md
-
-_This file is a stub. Run `/spec-design <feature_slug>` after requirements are drafted._
-```
-
-### `_specs/<feature_slug>/tasks.md`
-
-Write the file with the following structure. Fill `created` and `last-updated` with today's date. Set `status: pending`.
-
-```markdown
-# Tasks — <feature_title>
-
-status: pending
-created: <YYYY-MM-DD>
-last-updated: <YYYY-MM-DD>
-requirements: ./requirements.md
-design: ./design.md
-
-_This file is a stub. Run `/spec-tasks <feature_slug>` after design is drafted._
-```
+Create the folder `_specs/<feature_slug>/` and write the metadata file. Do NOT create stub files for `requirements.md`, `design.md`, or `tasks.md` — those are created by their respective `/spec-*` commands.
 
 ### `_specs/<feature_slug>/.spec-meta.json`
 
@@ -144,7 +73,7 @@ Write a JSON file with this exact shape (replace placeholders):
   "created": "<YYYY-MM-DD>",
   "last_updated": "<YYYY-MM-DD>",
   "stages": {
-    "requirements": "stub",
+    "requirements": "pending",
     "design": "pending",
     "tasks": "pending"
   }

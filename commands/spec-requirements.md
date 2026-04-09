@@ -35,8 +35,7 @@ If `stages.requirements` is already `drafted` or beyond, ask the user to confirm
 
 Read all of:
 
-- `_specs/<slug>/.spec-meta.json` (for the original `description`)
-- `_specs/<slug>/requirements.md` (the current stub — note the pre-filled Introduction)
+- `_specs/<slug>/.spec-meta.json` (for the original `description` — used to generate the Introduction)
 - The project's `CLAUDE.md` if present (for codebase-specific conventions)
 
 ## Step 4. Generate the requirements document
@@ -45,7 +44,7 @@ Produce a complete `requirements.md` with the following sections in this exact o
 
 ### Introduction
 
-- Keep the user-edited Introduction if it has been expanded since `/spec-init` (compare against the original description). If it is still the auto-generated stub, refine it into 2–3 grounded paragraphs covering problem, audience, and high-level scope.
+- Generate 2–3 grounded paragraphs covering problem, audience, and high-level scope, based on the `description` from `.spec-meta.json`.
 
 ### Requirements (the body of the doc)
 
@@ -87,11 +86,11 @@ This section is the **only** acceptable place to record uncertainty. Do not bake
 
 ## Step 5. Write the file
 
-Overwrite `_specs/<slug>/requirements.md` with the generated content. Update the frontmatter:
+Write `_specs/<slug>/requirements.md` with the generated content and frontmatter:
 
 - `status: drafted`
+- `created: <today YYYY-MM-DD>`
 - `last-updated: <today YYYY-MM-DD>`
-- Keep `created` as-is.
 
 ## Step 6. Update metadata
 

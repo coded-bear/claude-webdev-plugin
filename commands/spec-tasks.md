@@ -124,11 +124,11 @@ For E2E and visual verification tasks where running the app and clicking through
 
 ## Step 6. Write the file
 
-Overwrite `_specs/<slug>/tasks.md` with the generated content. Update the frontmatter:
+Write `_specs/<slug>/tasks.md` with the generated content and frontmatter:
 
 - `status: drafted`
+- `created: <today YYYY-MM-DD>`
 - `last-updated: <today YYYY-MM-DD>`
-- Keep `created` as-is.
 
 ## Step 7. Update metadata
 

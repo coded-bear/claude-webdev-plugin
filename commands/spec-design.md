@@ -31,7 +31,7 @@ No SDD feature found at _specs/<slug>/. Run `/spec-init <slug> <description>` fi
 
 Check `stages.requirements`:
 
-- If it is `"pending"` or `"stub"`, abort with:
+- If it is `"pending"`, abort with:
   ```
   Requirements are not drafted yet. Run `/spec-requirements <slug>` first.
   ```
@@ -143,11 +143,11 @@ Open questions are the **only** acceptable place to record uncertainty. Do not c
 
 ## Step 6. Write the file
 
-Overwrite `_specs/<slug>/design.md` with the generated content. Update the frontmatter:
+Write `_specs/<slug>/design.md` with the generated content and frontmatter:
 
 - `status: drafted`
+- `created: <today YYYY-MM-DD>`
 - `last-updated: <today YYYY-MM-DD>`
-- Keep `created` as-is.
 
 ## Step 7. Update metadata
 
