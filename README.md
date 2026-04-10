@@ -5,11 +5,8 @@ A Claude Code plugin that configures a productive web development environment. I
 ## What's Included
 
 - **Settings** — Prettier auto-formatting on stop, always-thinking mode, telemetry disabled, security deny-list for destructive commands and sensitive paths
-- **4 Agents** — Code review, performance analysis, accessibility audit, content audit
-- **1 Skill** — Web content writing (`/content-write`)
-- **5 Commands** — Quick single-file spec scaffolder (`/spec-quick`), full Spec-Driven Development workflow (`/spec-requirements`, `/spec-design`, `/spec-tasks`), and conventional-commit message generator (`/commit-message`)
-- **3 MCP Servers** — Context7 (library docs), Playwright (browser automation), shadcn (UI components with tweakcn theme)
 - **Custom Status Line** — Shows model name, context usage %, session duration, git branch, and line change stats
+- 4 agents, 5 commands, 1 skill, 3 MCP servers — see sections below
 
 ## Agents
 
@@ -22,16 +19,9 @@ A Claude Code plugin that configures a productive web development environment. I
 
 ## Skills
 
-### `/content-write`
-
-Generates website copy (headlines, CTAs, meta tags) tailored to a specific page type, industry, and language.
-
-```
-/content-write landing-page coffee-shop en
-/content-write e-commerce tech-startup pl
-```
-
-Arguments: `[page-type] [industry/client] [language]`
+| Skill            | Description                                                                            | Arguments                           |
+| ---------------- | -------------------------------------------------------------------------------------- | ----------------------------------- |
+| `/content-write` | Generates website copy (headlines, CTAs, meta tags) for a given page type and industry | `[page-type] [industry] [language]` |
 
 ## Commands
 
