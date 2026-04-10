@@ -36,7 +36,7 @@
       "Read(~/Library/Keychains/**)"
     ]
   },
-  "enableAllProjectMcpServers": false,
+  "enableAllProjectMcpServers": true,
   "hooks": {
     "Stop": [
       {
