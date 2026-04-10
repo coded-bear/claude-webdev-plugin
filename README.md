@@ -35,17 +35,6 @@ Arguments: `[page-type] [industry/client] [language]`
 
 ## Commands
 
-### `/spec-quick`
-
-Scaffolds a new feature by creating a git branch (`claude/feature/<slug>`) and a single detailed spec file under `_specs/<slug>.md` from a short idea. Aborts if there are uncommitted changes in the working tree. Use this for small features where the full SDD workflow would be overkill.
-
-```
-/spec-quick Card component for dashboard stats
-/spec-quick New heist form
-```
-
-Arguments: `<short feature description>`
-
 ### Spec-Driven Development workflow
 
 For non-trivial features where you want requirements → design → tasks traceability, use the SDD workflow. Each command is one stage, with an explicit review gate before the next.
@@ -100,14 +89,6 @@ Then install the plugin:
 ```
 /plugin install claude-webdev-plugin
 ```
-
-## Customization
-
-- **Add an agent** — Create a new `.md` file in `agents/` with YAML frontmatter (`name`, `description`, `model`, `color`, `tools`)
-- **Add a skill** — Create a new directory in `skills/<skill-name>/` with a `SKILL.md` file (frontmatter: `name`, `description`, `argument-hint`)
-- **Add a command** — Create a new `.md` file in `commands/` with YAML frontmatter (`description`, `argument-hint`, `allowed-tools`) and use `$ARGUMENTS` in the body
-
-See [CLAUDE.md](CLAUDE.md) for full details on the plugin structure.
 
 ## Author
 
