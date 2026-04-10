@@ -32,7 +32,7 @@ statusline.sh          — Custom status line script (model, context %, session 
 - **Hooks**: Prettier runs automatically on Stop (`npx prettier --write .`)
 - **Always-thinking** is enabled
 - **`frontend-design` plugin** from `claude-plugins-official` is enabled
-- **`enableAllProjectMcpServers`** is `false` — MCP servers must be explicitly enabled per-project
+- **`enableAllProjectMcpServers`** is `true` — all project-level MCP servers are auto-enabled
 - **Environment**: Telemetry, error reporting, bug command, and feedback surveys are disabled
 - **Permissions deny-list**: Blocks destructive commands (`rm -rf`, `sudo`, `dd`, `git push --force`, `git reset --hard`) and reads of sensitive paths (`~/.ssh`, `~/.aws`, `~/.gnupg`, credentials files, keychains)
 
