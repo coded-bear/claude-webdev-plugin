@@ -6,7 +6,7 @@ A Claude Code plugin that configures a productive web development environment. I
 
 - **Settings** — Prettier auto-formatting on stop, always-thinking mode, telemetry disabled, security deny-list for destructive commands and sensitive paths
 - **Custom Status Line** — Shows model name, context usage %, session duration, git branch, and line change stats
-- 4 agents, 5 commands, 1 skill, 3 MCP servers — see sections below
+- agents, commands, skills, MCP servers — see sections below
 
 ## Agents
 
@@ -45,8 +45,6 @@ Worked example:
 /spec-tasks card-component
 # review tasks.md, check the Coverage Summary, start implementing
 ```
-
-**When to use which:** rule of thumb — if the feature will take more than a day or touches more than three files, use `/spec-requirements`. Otherwise `/spec-quick` is faster and lighter.
 
 ### `/commit-message`
 
