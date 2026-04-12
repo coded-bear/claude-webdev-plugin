@@ -48,7 +48,7 @@ Each agent is a Markdown file with YAML frontmatter (`name`, `description`, `mod
 
 Each skill lives in a directory with a `SKILL.md` file (YAML frontmatter with `name`, `description`, `argument-hint`):
 
-- **content-write** — Generates web copy (headlines, CTAs, meta tags) for a given page type, industry, and language. Invoked with `/content-write [page-type] [industry] [language]`
+- **content-write** — Writes web content (copy, headlines, CTAs, meta tags) adapted to page type and project context. Invoked with `/content-write <what to write>`
 
 ## Commands (`commands/`)
 

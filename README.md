@@ -18,9 +18,9 @@ A Claude Code plugin that configures a productive web development environment. I
 
 ## Skills
 
-| Skill            | Description                                                                            | Arguments                           |
-| ---------------- | -------------------------------------------------------------------------------------- | ----------------------------------- |
-| `/content-write` | Generates website copy (headlines, CTAs, meta tags) for a given page type and industry | `[page-type] [industry] [language]` |
+| Skill            | Description                                                                                    | Arguments         |
+| ---------------- | ---------------------------------------------------------------------------------------------- | ----------------- |
+| `/content-write` | Writes web content (copy, headlines, CTAs, meta tags) adapted to page type and project context | `<what to write>` |
 
 ## Commands
 
