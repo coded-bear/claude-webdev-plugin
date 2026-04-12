@@ -55,7 +55,6 @@ Each skill lives in a directory with a `SKILL.md` file (YAML frontmatter with `n
 
 Each command is a Markdown file with YAML frontmatter (`description`, `argument-hint`, `allowed-tools`):
 
-- **spec-quick** — Turns a short feature idea into a kebab-case title, a new git branch (`claude/feature/<slug>`), and a detailed single-file spec in `_specs/<slug>.md`. Aborts if the working tree is dirty. Invoked with `/spec-quick <short feature description>`
 - **spec-requirements** — First step of the SDD workflow. Creates a git branch, `_specs/<slug>/` with `.spec-meta.json`, and generates `requirements.md` (EARS format with stable numbered IDs). On re-runs, regenerates requirements only. Invoked with `/spec-requirements <feature-name> [description]`
 - **spec-design** — Generates `design.md` (architecture, Mermaid diagrams, design decisions, components, data models) once requirements are drafted. Consults Context7 MCP. Invoked with `/spec-design <feature-name>`
 - **spec-tasks** — Generates `tasks.md` once both requirements and design are drafted. Each sub-task carries an inline `_Requirements: X.Y_` reference and the closing Coverage Summary flags any uncovered requirements as `⚠️ UNCOVERED`. Invoked with `/spec-tasks <feature-name>`
@@ -63,7 +62,7 @@ Each command is a Markdown file with YAML frontmatter (`description`, `argument-
 
 ## SDD Workflow
 
-Spec-Driven Development is the structured counterpart to `/spec-quick`. Use it for non-trivial features where you want traceability between requirements, design, and implementation tasks.
+Spec-Driven Development (SDD) is the workflow for planning features with traceability between requirements, design, and implementation tasks.
 
 The workflow is sequential, with explicit review gates between stages:
 
@@ -79,8 +78,6 @@ Design rules baked into the commands:
 - **Idempotent re-runs** — the generation commands ask for confirmation before overwriting an already-drafted file, then regenerate from scratch (no merging).
 - **`_specs/<slug>/.spec-meta.json`** is owned by the commands and tracks stage status, branch, timestamps, and the original description. Do not hand-edit it.
 - Only `/spec-requirements` (on first run) touches git. The other commands assume the user is already on the feature branch.
-
-When to use `/spec-quick` vs `/spec-requirements`: rule of thumb — if the feature will take more than a day or touches more than three files, use `/spec-requirements`. Otherwise `/spec-quick` is faster and lighter.
 
 ## How to Add New Agents, Skills, or Commands
 
