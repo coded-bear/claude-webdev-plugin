@@ -89,10 +89,10 @@ Produce a complete `tasks.md` with the following sections in this exact order: *
 
 The final phase must include a `code-reviewer` agent pass over the full diff. Add other agents only when relevant to the feature:
 
-| Concern       | Agent             | NFR ref     |
-| ------------- | ----------------- | ----------- |
-| Accessibility | `a11y-reviewer`   | `NFR-a11y`  |
-| Content/copy  | `content-auditor` | content NFR |
+| Concern       | Agent              | NFR ref     |
+| ------------- | ------------------ | ----------- |
+| Accessibility | `a11y-reviewer`    | `NFR-a11y`  |
+| Content/copy  | `content-reviewer` | content NFR |
 
 Phrase as: `<description> — invoke the \`<agent-name>\` agent on <scope>`.
 For E2E and visual verification, prefer **Playwright MCP** over manual steps.

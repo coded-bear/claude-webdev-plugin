@@ -42,7 +42,7 @@ Each agent is a Markdown file with YAML frontmatter (`name`, `description`, `mod
 
 - **code-reviewer** (opus) — Code review: bugs, architecture, TypeScript, performance, security, readability
 - **a11y-reviewer** (sonnet) — WCAG 2.1/2.2 accessibility review: semantics, ARIA, keyboard, focus, forms, media, dynamic content
-- **content-auditor** (sonnet) — Content quality audit: language/grammar, tone, SEO, heading structure, accessibility
+- **content-reviewer** (sonnet) — Content review: language/grammar, tone, SEO, content quality. Auto-invoked after content generation
 
 ## Skills (`skills/`)
 
