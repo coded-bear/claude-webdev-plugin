@@ -42,7 +42,7 @@ Each agent is a Markdown file with YAML frontmatter (`name`, `description`, `mod
 
 - **code-reviewer** (opus) — Thorough code review: bugs, architecture, TypeScript, performance, security, readability, testing
 - **performance-reviewer** (opus) — React/Next.js performance analysis: re-renders, bundle size, data fetching, server components, images, state management
-- **a11y-auditor** (opus) — WCAG accessibility audit: semantics, ARIA, keyboard, contrast, forms, media, dynamic content
+- **a11y-reviewer** (sonnet) — WCAG 2.1/2.2 accessibility review: semantics, ARIA, keyboard, focus, forms, media, dynamic content
 - **content-auditor** (sonnet) — Content quality audit: language/grammar, tone, SEO, heading structure, accessibility
 
 ## Skills (`skills/`)
