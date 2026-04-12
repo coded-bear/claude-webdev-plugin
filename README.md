@@ -10,12 +10,11 @@ A Claude Code plugin that configures a productive web development environment. I
 
 ## Agents
 
-| Agent                    | Model  | Description                                                                                                              |
-| ------------------------ | ------ | ------------------------------------------------------------------------------------------------------------------------ |
-| **code-reviewer**        | Opus   | Thorough code review covering bugs, architecture, TypeScript, performance, security, readability, and testing            |
-| **performance-reviewer** | Opus   | React/Next.js performance analysis — re-renders, bundle size, data fetching, server components, images, state management |
-| **a11y-reviewer**        | Sonnet | WCAG 2.1/2.2 accessibility review — semantics, ARIA, keyboard, focus, forms, media, dynamic content                      |
-| **content-auditor**      | Sonnet | Content quality audit — language/grammar, tone consistency, SEO, heading structure, accessibility                        |
+| Agent               | Model  | Description                                                                                         |
+| ------------------- | ------ | --------------------------------------------------------------------------------------------------- |
+| **code-reviewer**   | Opus   | Code review — bugs, architecture, TypeScript, performance, security, readability                    |
+| **a11y-reviewer**   | Sonnet | WCAG 2.1/2.2 accessibility review — semantics, ARIA, keyboard, focus, forms, media, dynamic content |
+| **content-auditor** | Sonnet | Content quality audit — language/grammar, tone consistency, SEO, heading structure, accessibility   |
 
 ## Skills
 

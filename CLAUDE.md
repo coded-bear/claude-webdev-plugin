@@ -40,8 +40,7 @@ statusline.sh          — Custom status line script (model, context %, session 
 
 Each agent is a Markdown file with YAML frontmatter (`name`, `description`, `model`, `color`, `tools`):
 
-- **code-reviewer** (opus) — Thorough code review: bugs, architecture, TypeScript, performance, security, readability, testing
-- **performance-reviewer** (opus) — React/Next.js performance analysis: re-renders, bundle size, data fetching, server components, images, state management
+- **code-reviewer** (opus) — Code review: bugs, architecture, TypeScript, performance, security, readability
 - **a11y-reviewer** (sonnet) — WCAG 2.1/2.2 accessibility review: semantics, ARIA, keyboard, focus, forms, media, dynamic content
 - **content-auditor** (sonnet) — Content quality audit: language/grammar, tone, SEO, heading structure, accessibility
 
