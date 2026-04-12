@@ -14,11 +14,13 @@ A Claude Code plugin (`claude-webdev-plugin`) that configures a productive web d
   marketplace.json     — Marketplace listing for plugin discovery
 .claude/
   settings.json        — Claude Code settings (permissions, hooks, env vars, enabled plugins)
+  settings.local.json  — User-local overrides (gitignored — not committed)
 .mcp.json              — MCP server definitions
 agents/                — Custom agent definitions (Markdown with YAML frontmatter)
 skills/                — Custom skill definitions (Markdown with YAML frontmatter)
 commands/              — Custom slash command definitions (Markdown with YAML frontmatter)
-statusline.sh          — Custom status line script (model, context %, session time, git branch, line stats)
+hooks/                 — Hook scripts (currently empty)
+statusline.sh          — Two-line status bar: model/context%/session time + git branch/line stats
 ```
 
 ## MCP Servers (`.mcp.json`)
@@ -36,28 +38,30 @@ statusline.sh          — Custom status line script (model, context %, session 
 - **Environment**: Telemetry, error reporting, bug command, and feedback surveys are disabled
 - **Permissions deny-list**: Blocks destructive commands (`rm -rf`, `sudo`, `dd`, `git push --force`, `git reset --hard`) and reads of sensitive paths (`~/.ssh`, `~/.aws`, `~/.gnupg`, credentials files, keychains)
 
+`.claude/settings.local.json` is gitignored and holds user-specific permission overrides (e.g., allowing `WebSearch`, extra bash commands). Do not commit it.
+
 ## Agents (`agents/`)
 
 Each agent is a Markdown file with YAML frontmatter (`name`, `description`, `model`, `color`, `tools`):
 
 - **code-reviewer** (opus) — Code review: bugs, architecture, TypeScript, performance, security, readability
 - **a11y-reviewer** (sonnet) — WCAG 2.1/2.2 accessibility review: semantics, ARIA, keyboard, focus, forms, media, dynamic content
-- **content-reviewer** (sonnet) — Content review: language/grammar, tone, SEO, content quality. Auto-invoked after content generation
+- **content-reviewer** (sonnet) — Content review: language/grammar, tone, SEO, content quality. Auto-invoked after the `content-write` skill generates content
 
 ## Skills (`skills/`)
 
 Each skill lives in a directory with a `SKILL.md` file (YAML frontmatter with `name`, `description`, `argument-hint`):
 
-- **content-write** — Writes web content (copy, headlines, CTAs, meta tags) adapted to page type and project context. Invoked with `/content-write <what to write>`
+- **content-write** — Writes web content (copy, headlines, CTAs, meta tags) adapted to page type and project context. Invoked with `/content-write <what to write>`. Triggers `content-reviewer` agent automatically after generation.
 
 ## Commands (`commands/`)
 
 Each command is a Markdown file with YAML frontmatter (`description`, `argument-hint`, `allowed-tools`):
 
-- **spec-requirements** — First step of the SDD workflow. Creates a git branch, `_specs/<slug>/` with `.spec-meta.json`, and generates `requirements.md` (EARS format with stable numbered IDs). On re-runs, regenerates requirements only. Invoked with `/spec-requirements <feature-name> [description]`
-- **spec-design** — Generates `design.md` (architecture, Mermaid diagrams, design decisions, components, data models) once requirements are drafted. Consults Context7 MCP. Invoked with `/spec-design <feature-name>`
-- **spec-tasks** — Generates `tasks.md` once both requirements and design are drafted. Each sub-task carries an inline `_Requirements: X.Y_` reference and the closing Coverage Summary flags any uncovered requirements as `⚠️ UNCOVERED`. Invoked with `/spec-tasks <feature-name>`
-- **commit-message** — Analyzes staged git changes and proposes a conventional-commit message with an emoji prefix (`✨ feat`, `🐛 fix`, `🔨 refactor`, `📝 docs`, `🎨 style`, `✅ test`, `⚡ perf`). Explains _why_ rather than just _what_, and asks for confirmation before committing. Invoked with `/commit-message`
+- `/spec-requirements <feature-name> [description]` — SDD stage 1. See [SDD Workflow](#sdd-workflow) below.
+- `/spec-design <feature-name>` — SDD stage 2.
+- `/spec-tasks <feature-name>` — SDD stage 3.
+- `/commit-message` — Analyzes staged git changes and proposes a conventional-commit message with an emoji prefix (`✨ feat`, `🐛 fix`, `🔨 refactor`, `📝 docs`, `🎨 style`, `✅ test`, `⚡ perf`). Explains _why_ rather than just _what_, and asks for confirmation before committing.
 
 ## SDD Workflow
 
@@ -65,17 +69,25 @@ Spec-Driven Development (SDD) is the workflow for planning features with traceab
 
 The workflow is sequential, with explicit review gates between stages:
 
-1. `/spec-requirements <slug> <description>` — initialize feature (branch + folder) and generate EARS-format requirements; **review and edit** before continuing
-2. `/spec-design <slug>` — generate the technical design from requirements; review
-3. `/spec-tasks <slug>` — generate the implementation plan with traceability back to requirements; review the Coverage Summary
+1. `/spec-requirements <slug> <description>` — Creates branch `claude/feature/<slug>` and folder `_specs/<slug>/`. Generates `requirements.md` (EARS format with stable numbered IDs, user stories, acceptance criteria). On re-runs, regenerates requirements only. **Review and edit** before continuing.
+2. `/spec-design <slug>` — Generates `design.md` (architecture, Mermaid diagrams, design decisions, components, data models). Consults Context7 MCP for library docs. Blocks if requirements are not drafted or have unresolved open questions.
+3. `/spec-tasks <slug>` — Generates `tasks.md` with phased implementation plan. Each sub-task carries `_Requirements: X.Y_` traceability. Closing Coverage Summary flags any `⚠️ UNCOVERED` requirements. Blocks if requirements or design are missing.
 4. Implement, ticking off checkboxes in `tasks.md` as you go.
 
-Design rules baked into the commands:
+SDD artifact structure:
 
-- **Fail-closed validation** — `/spec-design` refuses to run if requirements are not drafted; `/spec-tasks` refuses to run if either prior stage is missing.
+```
+_specs/<slug>/
+  .spec-meta.json      — Stage status, branch, timestamps, description (command-owned, do not hand-edit)
+  requirements.md      — EARS-format requirements with numbered IDs
+  design.md            — Technical design with Mermaid diagrams
+  tasks.md             — Implementation tasks with requirement traceability
+```
+
+Design rules:
+
 - **No auto-advance** — each command stops and tells the user to review before manually running the next step.
-- **Idempotent re-runs** — the generation commands ask for confirmation before overwriting an already-drafted file, then regenerate from scratch (no merging).
-- **`_specs/<slug>/.spec-meta.json`** is owned by the commands and tracks stage status, branch, timestamps, and the original description. Do not hand-edit it.
+- **Idempotent re-runs** — generation commands ask for confirmation before overwriting, then regenerate from scratch (no merging).
 - Only `/spec-requirements` (on first run) touches git. The other commands assume the user is already on the feature branch.
 
 ## How to Add New Agents, Skills, or Commands
