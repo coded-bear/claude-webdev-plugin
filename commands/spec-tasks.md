@@ -91,7 +91,7 @@ The final phase must include a `code-reviewer` agent pass over the full diff. Ad
 
 | Concern       | Agent                  | NFR ref     |
 | ------------- | ---------------------- | ----------- |
-| Accessibility | `a11y-auditor`         | `NFR-a11y`  |
+| Accessibility | `a11y-reviewer`        | `NFR-a11y`  |
 | Performance   | `performance-reviewer` | `NFR-perf`  |
 | Content/copy  | `content-auditor`      | content NFR |
 
